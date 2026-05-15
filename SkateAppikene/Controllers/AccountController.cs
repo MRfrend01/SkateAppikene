@@ -6,39 +6,37 @@ namespace SkateAppikene.Controllers
     public class AccountController : Controller
     {
         [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        public IActionResult Register() => View();
 
         [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            if (!ModelState.IsValid) return View(model);
 
-            // Siin saad kasutaja salvestada andmebaasi
-            // Näiteks: _db.Users.Add(new User { ... });
+            // Salvesta kasutaja sessiooni (hiljem saad asendada andmebaasiga)
+            HttpContext.Session.SetString("Kasutajanimi", model.Kasutajanimi);
 
-            TempData["Teade"] = "Registreerimine õnnestus! Palun logi sisse.";
-            return RedirectToAction("Login");
+            TempData["Teade"] = "Registreerimine õnnestus!";
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            if (!ModelState.IsValid) return View(model);
 
-            // Siin käib autentimine
-            // Näiteks: kontrollid parooli hash'i jne.
+            // Siin käib päris autentimine — praegu lihtsalt email kasutajanimeks
+            HttpContext.Session.SetString("Kasutajanimi", model.Email);
 
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }
