@@ -1,0 +1,56 @@
+﻿@model SkateAppikene.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Logi sisse";
+}
+
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="3" y="13" width="26" height="7" rx="3.5" fill="#e87722" />
+                <circle cx="9" cy="23" r="3" fill="#1a1a1a" />
+                <circle cx="23" cy="23" r="3" fill="#1a1a1a" />
+            </svg>
+            <span>SkateAppikene</span>
+        </div>
+        <h1 class="auth-heading">Tere tagasi</h1>
+        <p class="auth-sub">Logi sisse oma kontoga.</p>
+
+        @if (TempData["Teade"] != null)
+        {
+            <div class="alert-success-auth">@TempData["Teade"]</div>
+        }
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly" class="val-summary"></div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="karl@näide.ee" />
+                <span asp-validation-for="Email" class="val-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Parool" class="form-label"></label>
+                <input asp-for="Parool" class="form-control" placeholder="••••••••" />
+                <span asp-validation-for="Parool" class="val-msg"></span>
+            </div>
+
+            <div class="form-check">
+                <input asp-for="JataMinutMeelde" class="form-check-input" />
+                <label asp-for="JataMinutMeelde" class="form-check-label">Jäta mind meelde</label>
+            </div>
+
+            <button type="submit" class="btn-auth">Logi sisse</button>
+        </form>
+
+        <hr class="auth-divider" />
+        <p class="auth-switch">Pole kontot? <a asp-action="Register" asp-controller="Account">Registreeru</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

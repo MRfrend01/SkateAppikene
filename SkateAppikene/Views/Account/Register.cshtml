@@ -1,0 +1,83 @@
+﻿@model SkateAppikene.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Registreeru";
+}
+
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="3" y="13" width="26" height="7" rx="3.5" fill="#e87722" />
+                <circle cx="9" cy="23" r="3" fill="#1a1a1a" />
+                <circle cx="23" cy="23" r="3" fill="#1a1a1a" />
+            </svg>
+            <span>SkateAppikene</span>
+        </div>
+        <h1 class="auth-heading">Loo konto</h1>
+        <p class="auth-sub">Liitu kogukonnaga ja jaga oma sessioone.</p>
+
+        <form asp-action="Register" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly" class="val-summary"></div>
+
+            <div class="form-row-2">
+                <div class="form-group">
+                    <label asp-for="Eesnimi" class="form-label"></label>
+                    <input asp-for="Eesnimi" class="form-control" placeholder="Karl" />
+                    <span asp-validation-for="Eesnimi" class="val-msg"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Perenimi" class="form-label"></label>
+                    <input asp-for="Perenimi" class="form-control" placeholder="Tamm" />
+                    <span asp-validation-for="Perenimi" class="val-msg"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="karl@näide.ee" />
+                <span asp-validation-for="Email" class="val-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Kasutajanimi" class="form-label"></label>
+                <input asp-for="Kasutajanimi" class="form-control" placeholder="sk8er_karl" />
+                <span asp-validation-for="Kasutajanimi" class="val-msg"></span>
+            </div>
+
+            <div class="form-row-2">
+                <div class="form-group">
+                    <label asp-for="Parool" class="form-label"></label>
+                    <input asp-for="Parool" class="form-control" placeholder="••••••••" />
+                    <span asp-validation-for="Parool" class="val-msg"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParoolKinnitus" class="form-label"></label>
+                    <input asp-for="ParoolKinnitus" class="form-control" placeholder="••••••••" />
+                    <span asp-validation-for="ParoolKinnitus" class="val-msg"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tase" class="form-label"></label>
+                <select asp-for="Tase" class="form-control">
+                    <option value="">Vali tase...</option>
+                    <option value="Algaja">Algaja</option>
+                    <option value="Kesktase">Kesktase</option>
+                    <option value="Edasijõudnu">Edasijõudnu</option>
+                    <option value="Pro">Pro</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-auth">Registreeru</button>
+        </form>
+
+        <hr class="auth-divider" />
+        <p class="auth-switch">Juba konto olemas? <a asp-action="Login" asp-controller="Account">Logi sisse</a></p>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
