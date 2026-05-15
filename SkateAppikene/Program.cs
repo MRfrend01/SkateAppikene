@@ -1,14 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSession(); // ? lisa see
+builder.Services.AddSession();
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession(); // ? ja see, ENNE MapControllerRoute
+app.UseSession(); 
 app.UseAuthorization();
 
 app.MapControllerRoute(

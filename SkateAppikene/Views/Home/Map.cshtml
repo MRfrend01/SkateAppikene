@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Kaart";
+}
+
+<h2 class="mb-4">Skatepargid sinu lähedal</h2>
+
+<div id="map" style="height: 500px; border-radius: 12px;"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    const vaikimisiAsukoht = [59.4370, 24.7536];
+
+    const map = L.map('map').setView(vaikimisiAsukoht, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    const pargid = [
+        { nimi: "Tallinna Skatepark", asukoht: [59.4370, 24.7536], tase: "Kesktase" },
+        { nimi: "Ülemiste Skatepark", asukoht: [59.4225, 24.7794], tase: "Algaja" },
+        { nimi: "Kopli Skatepark", asukoht: [59.4502, 24.7215], tase: "Pro" },
+    ];
+
+    pargid.forEach(park => {
+        L.marker(park.asukoht)
+            .addTo(map)
+            .bindPopup(`<b>${park.nimi}</b><br>Tase: ${park.tase}`);
+    });
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            map.setView([lat, lng], 13);
+
+            L.circleMarker([lat, lng], {
+                radius: 10,
+                color: '#e87722',
+                fillColor: '#e87722',
+                fillOpacity: 0.8
+            }).addTo(map).bindPopup("Sina oled siin").openPopup();
+        });
+    }
+</script>
