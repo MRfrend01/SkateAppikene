@@ -1,0 +1,34 @@
+﻿@model List<SkateAppikene.Models.User>
+@{
+    ViewData["Title"] = "Kasutajad";
+}
+
+<h2 class="mb-4">Registreeritud kasutajad</h2>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Eesnimi</th>
+            <th>Perenimi</th>
+            <th>Email</th>
+            <th>Kasutajanimi</th>
+            <th>Tase</th>
+            <th>Registreeritud</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.Id</td>
+                <td>@u.Eesnimi</td>
+                <td>@u.Perenimi</td>
+                <td>@u.Email</td>
+                <td>@u.Kasutajanimi</td>
+                <td>@u.Tase</td>
+                <td>@u.LoodudKuupäev.ToString("dd.MM.yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
