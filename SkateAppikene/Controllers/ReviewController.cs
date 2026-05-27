@@ -17,6 +17,14 @@ namespace SkateAppikene.Controllers
             var username =
                 HttpContext.Session.GetString("Kasutajanimi");
 
+            // Kui pole sisse loginud
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account");
+            }
+
             var reviews = _db.Reviews
                 .Where(r => r.Kasutajanimi == username)
                 .ToList();
