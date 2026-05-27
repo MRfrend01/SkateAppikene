@@ -1,6 +1,27 @@
-﻿namespace SkateAppikene.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using SkateAppikene.Data;
+
+namespace SkateAppikene.Controllers
 {
-    public class ReviewController
+    public class ReviewController : Controller
     {
+        private readonly AppDbContext _db;
+
+        public ReviewController(AppDbContext db)
+        {
+            _db = db;
+        }
+
+        public IActionResult MyReviews()
+        {
+            var username =
+                HttpContext.Session.GetString("Kasutajanimi");
+
+            var reviews = _db.Reviews
+                .Where(r => r.Kasutajanimi == username)
+                .ToList();
+
+            return View(reviews);
+        }
     }
 }
