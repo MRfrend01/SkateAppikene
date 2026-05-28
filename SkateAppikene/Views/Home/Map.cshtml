@@ -5,6 +5,7 @@
 }
 
 <h2 class="mb-4">Skatepargid sinu lähedal</h2>
+<p>Kliki kaardile, et lisada uus skate spot 📍</p>
 
 <div id="map" style="height: 500px; border-radius: 12px;"></div>
 
@@ -132,5 +133,25 @@
 
         });
     }
+        map.on('click', function(e){
 
+        fetch('/Home/AddPin', {
+
+            method:'POST',
+
+            headers:{
+                'Content-Type':
+                'application/x-www-form-urlencoded'
+            },
+
+            body:
+            `latitude=${e.latlng.lat}
+            &longitude=${e.latlng.lng}`
+
+        })
+        .then(()=>{
+            location.reload();
+        });
+
+    });
 </script>

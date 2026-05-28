@@ -24,5 +24,7 @@ namespace SkateAppikene.Migrations
                 table: "Pins",
                 newName: "Name");
         }
+
     }
+
 }
