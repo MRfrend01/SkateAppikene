@@ -45,14 +45,14 @@ namespace SkateAppikene.Controllers
 
         [HttpPost]
         public IActionResult AddPin(
-            double latitude,
-            double longitude)
+     double latitude,
+     double longitude)
         {
-            var username =
+            var email =
                 HttpContext.Session
-                .GetString("Kasutajanimi");
+                .GetString("Email");
 
-            if (string.IsNullOrEmpty(username))
+            if (email != "admin@skateapp.ee")
             {
                 return Unauthorized();
             }
