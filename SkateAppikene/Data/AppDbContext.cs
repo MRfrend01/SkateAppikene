@@ -13,5 +13,8 @@ namespace SkateAppikene.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Pin> Pins { get; set; }
+
     }
 }

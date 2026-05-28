@@ -1,0 +1,65 @@
+﻿@model List<SkateAppikene.Models.Pin>
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>
+
+<div id="map"></div>
+
+<style>
+
+    #map{
+    height:700px;
+    width:100%;
+    }
+
+</style>
+
+<script>
+
+    var map = L.map('map')
+    .setView([59.437, 24.7536], 13);
+
+    L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+    maxZoom:19
+    }).addTo(map);
+
+    @foreach (var pin in Model)
+    {
+        <text>
+
+        L.marker([
+        @pin.Latitude,
+        @pin.Longitude
+        ]).addTo(map)
+        .bindPopup("@pin.Nimi");
+
+        </text>
+    }
+
+    map.on('click', function(e){
+
+    fetch('/Map/AddPin',{
+
+    method:'POST',
+
+    headers:{
+    'Content-Type':'application/x-www-form-urlencoded'
+    },
+
+    body:
+    `latitude=${e.latlng.lat}
+    &longitude=${e.latlng.lng}`
+
+    })
+    .then(()=>{
+    location.reload();
+    });
+
+    });
+
+</script>
