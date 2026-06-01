@@ -31,9 +31,19 @@ namespace SkateAppikene.Controllers
 
             return View(reviews);
         }
+        public IActionResult ParkReviews(int id)
+        {
+            var reviews = _db.Reviews
+                .Where(r => r.Id == id)
+                .ToList();
+
+            ViewBag.ParkId = id;
+
+            return View(reviews);
+        }
 
 
-        // Ühe review detailid
+  
         public IActionResult Details(int id)
         {
             var username =

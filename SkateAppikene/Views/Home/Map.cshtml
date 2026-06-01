@@ -54,12 +54,18 @@
 
     ];
 
-    pargid.forEach(park => {
+       pargid.forEach(park => {
 
         L.marker(park.asukoht)
             .addTo(map)
             .bindPopup(
-                `<b>${park.nimi}</b><br>Tase: ${park.tase}`
+                `<b>${park.nimi}</b>
+                <br>
+                Tase: ${park.tase}
+                <br><br>
+                <a href="/Review/ParkReviews?parkName=${encodeURIComponent(park.nimi)}">
+                    Vaata review'sid
+                </a>`
             );
 
     });
@@ -74,6 +80,11 @@
             <b>@pin.Nimi</b>
             <br>
             Tase: @pin.Tase
+            <br><br>
+
+            <a href="/Review/ParkReviews?parkName=@pin.Nimi">
+                Vaata review'sid
+            </a>
 
             @if (Context.Session.GetString("Email") == "admin@skateapp.ee")
             {
