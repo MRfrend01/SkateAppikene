@@ -5,30 +5,32 @@
 }
 
 <h2 class="mb-4">Skatepargid sinu lähedal</h2>
-<p>Kliki kaardile, et lisada uus skate spot 📍</p>
+
+@if (Context.Session.GetString("Email") == "admin@skateapp.ee")
+{
+    <p>Admin: kliki kaardile, et lisada uus skatepark 📍</p>
+}
 
 <div id="map" style="height: 500px; border-radius: 12px;"></div>
 
 <link rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
-    const vaikimisiAsukoht =
-    [59.4370, 24.7536];
+    const vaikimisiAsukoht = [59.4370, 24.7536];
 
-    const map =
-    L.map('map')
-    .setView(vaikimisiAsukoht, 13);
+    const map = L.map('map')
+        .setView(vaikimisiAsukoht, 13);
 
     L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution: '© OpenStreetMap'
+        })
+        .addTo(map);
 
     const pargid = [
 
@@ -48,7 +50,7 @@
             nimi: "Kopli Skatepark",
             asukoht: [59.4502, 24.7215],
             tase: "Pro"
-        },
+        }
 
     ];
 
@@ -57,9 +59,8 @@
         L.marker(park.asukoht)
             .addTo(map)
             .bindPopup(
-            `<b>${park.nimi}</b>
-            <br>
-            Tase: ${park.tase}`);
+                `<b>${park.nimi}</b><br>Tase: ${park.tase}`
+            );
 
     });
 
@@ -67,55 +68,96 @@
 
 @foreach (var pin in Model)
 {
-    <text>
+    <script>
 
-        <script>
+        var popup_@pin.Id = `
+            <b>@pin.Nimi</b>
+            <br>
+            Tase: @pin.Tase
 
-            L.marker([
-                @pin.Latitude,
-                @pin.Longitude
-            ])
-            .addTo(map)
-            .bindPopup("@pin.Nimi");
+            @if (Context.Session.GetString("Email") == "admin@skateapp.ee")
+            {
+                    @:<br><br>
+                    @:<button onclick="deletePin(@pin.Id)">
+                    @:Kustuta
+                    @:</button>
+            }
+        `;
 
-        </script>
+        L.marker([
+            @pin.Latitude,
+            @pin.Longitude
+        ])
+        .addTo(map)
+        .bindPopup(popup_@pin.Id);
 
-    </text>
+    </script>
+}
+
+@if (Context.Session.GetString("Email") == "admin@skateapp.ee")
+{
+    <script>
+
+        map.on('click', function(e){
+
+            const nimi =
+                prompt("Sisesta skatepargi nimi:");
+
+            if(!nimi)
+                return;
+
+            const tase =
+                prompt("Sisesta tase: Algaja / Kesktase / Pro");
+
+            if(!tase)
+                return;
+
+            fetch('/Home/AddPin', {
+
+                method:'POST',
+
+                headers:{
+                    'Content-Type':
+                    'application/x-www-form-urlencoded'
+                },
+
+                body:
+                `nimi=${encodeURIComponent(nimi)}
+                &tase=${encodeURIComponent(tase)}
+                &latitude=${e.latlng.lat}
+                &longitude=${e.latlng.lng}`
+
+            })
+            .then(()=>{
+                location.reload();
+            });
+
+        });
+
+    </script>
 }
 
 <script>
 
-    map.on('click', function(e){
+    function deletePin(id)
+    {
+        if(!confirm("Kas soovid selle skatepargi kustutada?"))
+            return;
 
-        fetch('/Home/AddPin', {
-
-            method:'POST',
-
-            headers:{
-                'Content-Type':
-                'application/x-www-form-urlencoded'
-            },
-
-            body:
-            `latitude=${e.latlng.lat}
-            &longitude=${e.latlng.lng}`
-
+        fetch('/Home/DeletePin?id=' + id, {
+            method:'POST'
         })
         .then(()=>{
             location.reload();
         });
+    }
 
-    });
-
-    if (navigator.geolocation) {
-
+    if (navigator.geolocation)
+    {
         navigator.geolocation.getCurrentPosition(pos => {
 
-            const lat =
-            pos.coords.latitude;
-
-            const lng =
-            pos.coords.longitude;
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
 
             map.setView([lat, lng], 13);
 
@@ -133,25 +175,5 @@
 
         });
     }
-        map.on('click', function(e){
 
-        fetch('/Home/AddPin', {
-
-            method:'POST',
-
-            headers:{
-                'Content-Type':
-                'application/x-www-form-urlencoded'
-            },
-
-            body:
-            `latitude=${e.latlng.lat}
-            &longitude=${e.latlng.lng}`
-
-        })
-        .then(()=>{
-            location.reload();
-        });
-
-    });
 </script>

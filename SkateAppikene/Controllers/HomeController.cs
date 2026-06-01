@@ -45,12 +45,13 @@ namespace SkateAppikene.Controllers
 
         [HttpPost]
         public IActionResult AddPin(
-     double latitude,
-     double longitude)
+            string nimi,
+            string tase,
+            double latitude,
+            double longitude)
         {
             var email =
-                HttpContext.Session
-                .GetString("Email");
+                HttpContext.Session.GetString("Email");
 
             if (email != "admin@skateapp.ee")
             {
@@ -59,14 +60,35 @@ namespace SkateAppikene.Controllers
 
             var pin = new Pin
             {
-                Nimi = "Uus skate spot",
+                Nimi = nimi,
+                Tase = tase,
                 Latitude = latitude,
                 Longitude = longitude
             };
 
             _db.Pins.Add(pin);
-
             _db.SaveChanges();
+
+            return Ok();
+        }
+        [HttpPost]
+        public IActionResult DeletePin(int id)
+        {
+            var email =
+                HttpContext.Session.GetString("Email");
+
+            if (email != "admin@skateapp.ee")
+            {
+                return Unauthorized();
+            }
+
+            var pin = _db.Pins.Find(id);
+
+            if (pin != null)
+            {
+                _db.Pins.Remove(pin);
+                _db.SaveChanges();
+            }
 
             return Ok();
         }

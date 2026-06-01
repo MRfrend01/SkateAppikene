@@ -6,6 +6,8 @@
 
         public string Nimi { get; set; } = "";
 
+        public string Tase { get; set; } = "";
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
