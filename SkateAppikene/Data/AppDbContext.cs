@@ -16,5 +16,6 @@ namespace SkateAppikene.Data
 
         public DbSet<Pin> Pins { get; set; }
 
+
     }
 }

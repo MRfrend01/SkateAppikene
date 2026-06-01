@@ -1,6 +1,44 @@
 ﻿@model List<SkateAppikene.Models.Review>
 
+@{
+    ViewData["Title"] = "Park Reviews";
+}
+
 <h2>@ViewBag.ParkName Reviews</h2>
+
+<hr />
+
+
+
+<h3>Lisa review</h3>
+
+<form method="post" action="/Review/AddReview">
+
+    <input type="hidden" name="ParkName" value="@ViewBag.ParkName" />
+
+    <input type="text" name="Kasutajanimi" placeholder="Sinu nimi" required />
+    <br /><br />
+
+    <label>Hinne:</label>
+    <select name="Score" required>
+        <option value="5">5 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="1">1 ⭐</option>
+    </select>
+
+    <br /><br />
+
+    <textarea name="Comment" placeholder="Kirjuta oma review..." required></textarea>
+
+    <br /><br />
+
+    <button type="submit">Lisa review</button>
+</form>
+
+<hr />
+
 
 @if (!Model.Any())
 {
@@ -14,7 +52,8 @@ else
         {
             <div class="review-card">
 
-                <img src="@review.ParkImage"
+                <!-- PLACEHOLDER IMAGE (kuna sul ParkImage pole) -->
+                <img src="https://via.placeholder.com/300x200"
                      alt="@review.ParkName" />
 
                 <div class="review-content">
@@ -26,8 +65,16 @@ else
                     </p>
 
                     <p>
-                        @review.Kasutajanimi
+                        @review.Comment
                     </p>
+
+                    <p>
+                        👤 @review.Kasutajanimi
+                    </p>
+
+                    <small>
+                        @review.Id
+                    </small>
 
                 </div>
 
@@ -36,6 +83,7 @@ else
 
     </div>
 }
+
 
 <style>
 
@@ -50,6 +98,7 @@ else
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0,0,0,.2);
+        background: white;
     }
 
         .review-card img {
