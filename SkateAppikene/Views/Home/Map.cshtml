@@ -227,13 +227,15 @@
                 if (!nimi) return;
                 var tase = prompt("Sisesta tase: Algaja / Kesktase / Pro");
                 if (!tase) return;
+                var imageUrl = prompt("Sisesta pildi URL (võib jätta tühjaks):");
                 fetch('/Home/AddPin', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'nimi=' + encodeURIComponent(nimi) +
                           '&tase=' + encodeURIComponent(tase) +
                           '&latitude=' + e.latlng.lat +
-                          '&longitude=' + e.latlng.lng
+                          '&longitude=' + e.latlng.lng +
+                          '&imageUrl=' + encodeURIComponent(imageUrl || '')
                 }).then(function() { location.reload(); });
             });
             </text>

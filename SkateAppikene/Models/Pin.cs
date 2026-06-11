@@ -12,6 +12,6 @@
 
         public string Tase { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }
