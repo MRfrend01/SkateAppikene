@@ -54,10 +54,12 @@ namespace SkateAppikene.Controllers
 
             model.Kasutajanimi = username;
 
+            // Võta pilt automaatselt pinilt
+            var pin = _db.Pins.FirstOrDefault(p => p.Nimi == model.ParkName);
+            model.ParkImage = pin?.ImageUrl ?? "";
+
             _db.Reviews.Add(model);
-            model.ParkImage = "";
             _db.SaveChanges();
-            
 
             return RedirectToAction("ParkReviews", new { parkName = model.ParkName });
         }
