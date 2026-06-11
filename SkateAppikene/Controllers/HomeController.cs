@@ -52,28 +52,25 @@ namespace SkateAppikene.Controllers
             string nimi,
             string tase,
             double latitude,
-            double longitude)
+            double longitude,
+            string imageUrl)
         {
-            var email =
-                HttpContext.Session.GetString("Email");
+            var email = HttpContext.Session.GetString("Email");
 
             if (email != "admin@skateapp.ee")
-            {
                 return Unauthorized();
-            }
 
             var pin = new Pin
             {
                 Nimi = nimi,
                 Tase = tase,
                 Latitude = latitude,
-                Longitude = longitude
+                Longitude = longitude,
+                ImageUrl = imageUrl
             };
-            if (pin != null)
-            {             _db.Pins.Add(pin);
+
+            _db.Pins.Add(pin);
             _db.SaveChanges();
-            }
-   
 
             return Ok();
         }

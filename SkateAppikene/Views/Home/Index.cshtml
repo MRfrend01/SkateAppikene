@@ -1,248 +1,139 @@
-﻿@model List<SkateAppikene.Models.Review>
-
-@{
+﻿@{
     ViewData["Title"] = "Avaleht";
-    var featuredReview = Model?.FirstOrDefault();
 }
 
 <style>
-    .sp-hero {
-        position: relative;
+    .home-hero {
+        text-align: center;
+        padding: 4rem 1rem 3rem;
+    }
+
+    .home-logo {
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: #FFE600;
+        text-shadow: 3px 3px 0 #000;
+        letter-spacing: -2px;
+        margin-bottom: 0.5rem;
+    }
+
+    .home-sub {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.5);
         margin-bottom: 2.5rem;
     }
 
-    .sp-hero-inner {
-        background: #FFE600;
-        transform: rotate(-1.5deg);
-        border-radius: 4px;
-        padding: 6px;
-        display: inline-block;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .sp-hero-img-wrap {
-        border: 4px solid #2563EB;
-        border-radius: 2px;
-        overflow: hidden;
-        height: 280px;
-        background: #1a2744;
-        transform: rotate(1.5deg);
-    }
-
-    .sp-hero-img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .sp-hero-placeholder {
-        width: 100%;
-        height: 100%;
+    .home-actions {
         display: flex;
-        align-items: center;
+        gap: 14px;
         justify-content: center;
-        color: rgba(255,255,255,0.2);
-        font-size: 14px;
-    }
-
-    .sp-pin-name {
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 2rem;
-        font-weight: 900;
-        color: #FFE600;
-        text-shadow: 2px 2px 0 #000;
-        margin-bottom: 0.25rem;
-        letter-spacing: -0.5px;
-    }
-
-    .sp-pin-tase {
-        font-size: 0.85rem;
-        color: rgba(255,255,255,0.55);
-        margin-bottom: 1.5rem;
-        text-align: right;
-    }
-
-    .sp-mini-card {
-        position: relative;
-        width: 150px;
-        flex-shrink: 0;
-    }
-
-    .sp-mini-outer {
-        background: #FFE600;
-        transform: rotate(-2deg);
-        border-radius: 3px;
-        padding: 5px;
-        transition: transform 0.15s;
-    }
-
-    .sp-mini-outer:hover {
-        transform: rotate(0deg) scale(1.05);
-    }
-
-    .sp-mini-img {
-        border: 3px solid #2563EB;
-        border-radius: 2px;
-        overflow: hidden;
-        height: 100px;
-        background: #1a2744;
-    }
-
-    .sp-mini-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .sp-mini-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11px;
-        color: #111;
-        font-weight: 700;
-        margin-top: 6px;
-        padding: 0 2px;
-    }
-
-    .sp-section-title {
-        font-size: 1.1rem;
-        font-weight: 800;
-        color: #FFE600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 1rem;
-    }
-
-    .sp-empty {
-        color: rgba(255,255,255,0.35);
-        font-size: 14px;
-        padding: 1rem 0;
-    }
-
-    .sp-cta-row {
-        margin-top: 2rem;
-        display: flex;
-        gap: 12px;
         flex-wrap: wrap;
+        margin-bottom: 3.5rem;
     }
 
-    .sp-btn-yellow {
+    .btn-yellow {
         background: #FFE600;
         color: #111;
         border: none;
-        padding: 10px 22px;
+        padding: 13px 28px;
         border-radius: 4px;
         font-weight: 800;
-        font-size: 14px;
+        font-size: 15px;
         text-decoration: none;
         display: inline-block;
-        transition: background 0.15s;
+        transition: background 0.15s, transform 0.1s;
     }
 
-    .sp-btn-yellow:hover {
-        background: #f0d800;
-        color: #111;
-    }
+        .btn-yellow:hover {
+            background: #f0d800;
+            color: #111;
+            transform: translateY(-1px);
+        }
 
-    .sp-btn-outline {
+    .btn-outline {
         border: 2px solid rgba(255,255,255,0.2);
         color: rgba(255,255,255,0.7);
-        padding: 9px 22px;
+        padding: 12px 28px;
         border-radius: 4px;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 15px;
         text-decoration: none;
         display: inline-block;
-        transition: border-color 0.15s;
+        transition: border-color 0.15s, color 0.15s;
     }
 
-    .sp-btn-outline:hover {
-        border-color: #FFE600;
+        .btn-outline:hover {
+            border-color: #FFE600;
+            color: #FFE600;
+        }
+
+    .home-tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        max-width: 820px;
+        margin: 0 auto;
+    }
+
+    .home-tile {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: left;
+    }
+
+    .home-tile-icon {
+        font-size: 1.8rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .home-tile-title {
+        font-weight: 800;
         color: #FFE600;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .home-tile-desc {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.45);
+        line-height: 1.5;
     }
 </style>
 
-<div class="row g-4">
-    <div class="col-lg-8">
-        <p class="sp-pin-name">SkidParkz</p>
+<div class="home-hero">
+    <div class="home-logo">SkidParkz</div>
+    <p class="home-sub">Leia Eesti parimad skatepargid, loe teiste arvamusi ja jaga enda kogemust.</p>
 
-        @if (featuredReview != null)
+    <div class="home-actions">
+        <a href="/Home/Map" class="btn-yellow">🗺 Vaata kaarti</a>
+        @if (Context.Session.GetString("Kasutajanimi") != null)
         {
-            <div class="sp-hero">
-                <div class="sp-hero-inner">
-                    <div class="sp-hero-img-wrap">
-                        @if (!string.IsNullOrEmpty(featuredReview.ParkImage))
-                        {
-                            <img src="@featuredReview.ParkImage" alt="@featuredReview.ParkName" />
-                        }
-                        else
-                        {
-                            <div class="sp-hero-placeholder">📸 pole pilti</div>
-                        }
-                    </div>
-                </div>
-                <p class="sp-pin-tase mt-2">@featuredReview.ParkName &nbsp;·&nbsp; ⭐ @featuredReview.Score/5</p>
-            </div>
+            <a asp-controller="Review" asp-action="MyReviews" class="btn-outline">Minu reviews</a>
         }
         else
         {
-            <div class="sp-hero">
-                <div class="sp-hero-inner">
-                    <div class="sp-hero-img-wrap">
-                        <div class="sp-hero-placeholder">Pole veel review'sid</div>
-                    </div>
-                </div>
-            </div>
+            <a href="/Account/Login" class="btn-outline">Logi sisse</a>
+            <a href="/Account/Register" class="btn-outline">Registreeru</a>
         }
-
-        <div class="sp-cta-row">
-            <a href="/Home/Map" class="sp-btn-yellow">🗺 Vaata kaarti</a>
-            @if (Context.Session.GetString("Kasutajanimi") != null)
-            {
-                <a asp-controller="Review" asp-action="MyReviews" class="sp-btn-outline">Minu reviews</a>
-            }
-            else
-            {
-                <a href="/Account/Login" class="sp-btn-outline">Logi sisse</a>
-            }
-        </div>
     </div>
 
-    <div class="col-lg-4">
-        <p class="sp-section-title">Viimased reviews</p>
-
-        @if (Model == null || !Model.Any())
-        {
-            <p class="sp-empty">Ühtegi review'i pole veel lisatud.</p>
-        }
-        else
-        {
-            <div class="d-flex flex-wrap gap-3">
-                @foreach (var rev in Model.Take(4))
-                {
-                    <a asp-controller="Review" asp-action="Details" asp-route-id="@rev.Id" style="text-decoration:none;">
-                        <div class="sp-mini-card">
-                            <div class="sp-mini-outer">
-                                <div class="sp-mini-img">
-                                    @if (!string.IsNullOrEmpty(rev.ParkImage))
-                                    {
-                                        <img src="@rev.ParkImage" alt="@rev.ParkName" />
-                                    }
-                                    else
-                                    {
-                                        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);font-size:12px;">📸</div>
-                                    }
-                                </div>
-                                <div class="sp-mini-meta">
-                                    <span>@rev.Kasutajanimi</span>
-                                    <span>⭐@rev.Score</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                }
-            </div>
-        }
+    <div class="home-tiles">
+        <div class="home-tile">
+            <div class="home-tile-icon">📍</div>
+            <div class="home-tile-title">Leia pargid</div>
+            <div class="home-tile-desc">Kaardil on märgitud skatepargid üle Eesti koos taseme infoga.</div>
+        </div>
+        <div class="home-tile">
+            <div class="home-tile-icon">⭐</div>
+            <div class="home-tile-title">Lisa review</div>
+            <div class="home-tile-desc">Olid pargis? Jaga oma arvamust teistele skeitaritele.</div>
+        </div>
+        <div class="home-tile">
+            <div class="home-tile-icon">🛹</div>
+            <div class="home-tile-title">Kõik tasemed</div>
+            <div class="home-tile-desc">Algajast proni — leia endale sobiva tasemega park.</div>
+        </div>
     </div>
 </div>

@@ -1,103 +1,215 @@
 ﻿@model SkateAppikene.Models.Review
 
-<div class="container">
-
-    <div class="left">
-
-        <img src="@Model.ParkImage">
-
-        <div class="score">
-            ⭐ @Model.Score
-        </div>
-
-        <div class="buttons">
-
-            <a class="delete"
-               asp-action="Delete"
-               asp-route-id="@Model.Id">
-                Delete
-            </a>
-
-            <a class="modify"
-               asp-action="Edit"
-               asp-route-id="@Model.Id">
-                Modify
-            </a>
-
-        </div>
-
-    </div>
-
-    <div class="right">
-
-        <h2>@Model.ParkName</h2>
-
-        <div class="parkData">
-
-            Park data
-
-        </div>
-
-        <div class="opinion">
-
-            My opinion
-
-        </div>
-
-    </div>
-
-</div>
+@{
+    ViewData["Title"] = @Model.ParkName;
+}
 
 <style>
-
-    .container {
+    .det-wrap {
         display: flex;
-        gap: 30px;
+        gap: 32px;
+        align-items: flex-start;
     }
 
-    .left {
-        width: 300px;
+    @@media (max-width: 700px) {
+        .det-wrap {
+            flex-direction: column;
+        }
+
+        .det-left {
+            width: 100% !important;
+        }
     }
 
-        .left img {
+    .det-left {
+        width: 280px;
+        flex-shrink: 0;
+    }
+
+    .det-img-outer {
+        background: #FFE600;
+        transform: rotate(-1.5deg);
+        border-radius: 4px;
+        padding: 6px 6px 18px;
+        margin-bottom: 16px;
+    }
+
+    .det-img-inner {
+        border: 3px solid #2563EB;
+        border-radius: 2px;
+        overflow: hidden;
+        height: 200px;
+        background: #1a2744;
+        transform: rotate(1.5deg);
+    }
+
+        .det-img-inner img {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
         }
 
-    .score {
-        margin-top: 15px;
-        padding: 15px;
-        border: 1px solid black;
+    .det-img-ph {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255,255,255,0.2);
+        font-size: 13px;
     }
 
-    .buttons {
+    .det-score {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #FFE600;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .det-score span {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.4);
+            font-weight: 400;
+        }
+
+    .det-btns {
         display: flex;
         gap: 10px;
-        margin-top: 20px;
     }
 
-    .delete {
-        background: red;
-        padding: 10px;
-        color: white;
+    .btn-delete {
+        background: #dc2626;
+        color: #fff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 13px;
+        text-decoration: none;
+        transition: background 0.15s;
     }
 
-    .modify {
-        background: dodgerblue;
-        padding: 10px;
-        color: white;
+        .btn-delete:hover {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+    .btn-modify {
+        background: #2563EB;
+        color: #fff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 13px;
+        text-decoration: none;
+        transition: background 0.15s;
     }
 
-    .right {
+        .btn-modify:hover {
+            background: #1d4ed8;
+            color: #fff;
+        }
+
+    .det-right {
         flex: 1;
     }
 
-    .parkData,
-    .opinion {
-        border: 1px solid black;
-        padding: 40px;
-        margin-top: 20px;
+    .det-parkname {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 1.2rem;
+        letter-spacing: -0.5px;
     }
 
+    .det-box {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 14px;
+    }
+
+    .det-box-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(255,255,255,0.35);
+        margin-bottom: 8px;
+    }
+
+    .det-box-value {
+        color: rgba(255,255,255,0.85);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .det-meta {
+        font-size: 12px;
+        color: rgba(255,255,255,0.3);
+        margin-top: 1rem;
+    }
 </style>
+
+<div class="det-wrap">
+    <div class="det-left">
+        <div class="det-img-outer">
+            <div class="det-img-inner">
+                @if (!string.IsNullOrEmpty(Model.ParkImage))
+                {
+                    <img src="@Model.ParkImage" alt="@Model.ParkName" />
+                }
+                else
+                {
+                    <div class="det-img-ph">📸 pole pilti</div>
+                }
+            </div>
+        </div>
+
+        <div class="det-score">
+            ⭐ @Model.Score <span>/ 5</span>
+        </div>
+
+        <div class="det-btns">
+            <a class="btn-delete" asp-action="Delete" asp-route-id="@Model.Id">Kustuta</a>
+            <a class="btn-modify" asp-action="Edit" asp-route-id="@Model.Id">Muuda</a>
+        </div>
+    </div>
+
+    <div class="det-right">
+        <div class="det-parkname">@Model.ParkName</div>
+
+        <div class="det-box">
+            <div class="det-box-label">Park</div>
+            <div class="det-box-value">@Model.ParkName</div>
+        </div>
+
+        <div class="det-box">
+            <div class="det-box-label">Minu arvamus</div>
+            <div class="det-box-value">
+                @if (!string.IsNullOrEmpty(Model.Comment))
+                {
+                    @Model.Comment
+                }
+                else
+                {
+                    <span style="color:rgba(255,255,255,0.25)">Kommentaar puudub</span>
+                }
+            </div>
+        </div>
+
+        <div class="det-meta">
+            Lisatud: @Model.CreatedAt.ToString("dd.MM.yyyy")
+            &nbsp;·&nbsp; @Model.Kasutajanimi
+        </div>
+    </div>
+</div>
