@@ -20,7 +20,11 @@ namespace SkateAppikene.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var reviews = _db.Reviews
+                .OrderByDescending(r => r.CreatedAt)
+                .Take(4)
+                .ToList();
+            return View(reviews);
         }
 
         public IActionResult Privacy()
@@ -94,6 +98,7 @@ namespace SkateAppikene.Controllers
 
             return Ok();
         }
+
 
         public IActionResult Kasutajad()
         {
