@@ -65,9 +65,11 @@ namespace SkateAppikene.Controllers
                 Latitude = latitude,
                 Longitude = longitude
             };
-
-            _db.Pins.Add(pin);
+            if (pin != null)
+            {             _db.Pins.Add(pin);
             _db.SaveChanges();
+            }
+   
 
             return Ok();
         }
